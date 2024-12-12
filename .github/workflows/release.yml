@@ -49,7 +49,7 @@ jobs:
         run: rustup target add x86_64-pc-windows-gnu
 
       - name: Install Build Essentials
-        run: sudo apt-get install build-essential
+        run: sudo apt-get install build-essential mingw-w64
 
       - name: Build and make package
         run: make release
