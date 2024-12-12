@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    outputs:
+      release_upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            Cargo.toml
+            Cargo.lock
+          tag_name: ${{ github.event.inputs.version }}
+          body: |
+            Release ${{ github.event.inputs.version }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set output
+        id: release_url
+        run: echo "RELEASE_UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> "$GITHUB_OUTPUT"
+  build_and_upload_release_asset:
+    needs: create_release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Add target
+        run: rustup target add x86_64-pc-windows-gnu
+
+      - name: Install Build Essentials
+        run: sudo apt-get install build-essential
+
+      - name: Build and make package
+        run: make release
+
+      - name: Rename package
+        run: mv pa-classifications.appkg pa-classifications-${{ github.event.inputs.version }}.appkg
+
+
+      - name: Upload Release Asset (Zipped)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_UPLOAD_URL: ${{ needs.create_release.outputs.release_upload_url }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: ./pa-classifications-${{ github.event.inputs.version }}.appkg
+          asset_name: pa-classifications-${{ github.event.inputs.version }}.appkg
+          asset_content_type: application/zip

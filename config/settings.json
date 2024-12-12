@@ -1,0 +1,53 @@
+﻿[
+  {
+    "Id": "433aafba-8889-4040-8a02-8fbbe077b674",
+    "FriendlyName": "pa-classifications",
+    "ExecutableFilePath": "pa-classifications.exe",
+    "ExecutableArguments": "",
+    "UseJsonInput": true,
+    "JsonInputFields": [
+      20,
+      8,
+      31,
+      17,
+      32
+    ],
+    "MaxSimultaneousInstances": 0,
+    "WaitForExit": false,
+    "ParseOutput": true,
+    "ShouldWriteErrorLog": true,
+    "ExecutionTypes": 3,
+    "AutoStart": false,
+    "ForceTermination": true,
+    "SupportsBatchProcessing": true,
+    "MaxBatchSize": 10000,
+    "FileClassFilter": [],
+    "Description": "",
+    "IconPath": "",
+    "OdtFilePaths": [],
+    "Requirements": "",
+    "Vendor": "",
+    "TimeoutForExecution": 0,
+    "Version": "0.1.1.0",
+    "ProductName": "pa-classifications",
+    "FileFilterSettings": {
+      "MinWidth": null,
+      "MinHeight": null,
+      "MinSize": null,
+      "MaxSize": null,
+      "IncludeCategorized": true,
+      "IncludeUncategorized": true
+    },
+    "CustomProperties": [
+      {
+        "Id": 0,
+        "Name": "Custom Property",
+        "Indexed": true,
+        "Visible": true,
+        "DataType": 0
+      }
+    ],
+    "ShowInForensicMarket": true,
+    "DisableEditing": false
+  }
+]
