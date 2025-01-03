@@ -31,9 +31,7 @@ jobs:
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set output
-        id: release_url
-        run: echo "RELEASE_UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> "$GITHUB_OUTPUT"
+
   build_and_upload_release_asset:
     needs: create_release
     runs-on: ubuntu-latest
